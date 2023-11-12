@@ -12,4 +12,6 @@ export async function requestBody(req, res){
   } catch {
     req.body = {}
   }
+
+  res.setHeader('Content-Type', 'application/json')
 }
