@@ -28,4 +28,10 @@ export class Database {
     
     return data
   }
+
+  read(table) {
+    const data = this.#database[table]
+    
+    return data
+  }
 }
