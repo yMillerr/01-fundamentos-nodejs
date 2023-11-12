@@ -2,9 +2,9 @@ import http from 'node:http'
 
 import { Database } from './database/Database.js';
 import { requestBody } from './middlewares/request-body.js';
-const database = new Database()
-
 import { randomUUID } from 'node:crypto'
+
+const database = new Database()
 
 const server = http.createServer(async (req, res) => {
   const { method, url } = req;
@@ -23,6 +23,12 @@ const server = http.createServer(async (req, res) => {
     database.create('tasks', task)
     
     return res.end()
+  }
+
+  if (method === 'GET' && url === '/tasks') {
+    const tasks = database.read('tasks')
+
+    return res.end(JSON.stringify(tasks))
   }
   
   res.end();
