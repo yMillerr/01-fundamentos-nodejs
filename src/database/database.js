@@ -18,7 +18,6 @@ export class Database {
   }
 
   create(table, data) {
-    console.log('Entrei no método')
     if(Array.isArray(this.#database[table])) {
       this.#database[table].push(data)
     } else {
