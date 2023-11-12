@@ -1,21 +1,32 @@
-import fs from 'node:fs'
+import { writeFile, readFile } from 'node:fs/promises'
+
 
 const databaseFilePath = new URL("../../db.json", import.meta.url)
 
 export class Database {
   #database = {}
 
+  constructor () {
+    readFile(databaseFilePath)
+    .then(data => JSON.parse(data))
+    .then(data => this.#database = data)
+    .catch(() => this.#persist())
+  }
+
   #persist() {
-    fs.writeFile(databaseFilePath, JSON.stringify(this.#database))
+    writeFile(databaseFilePath, JSON.stringify(this.#database))
   }
 
   create(table, data) {
+    console.log('Entrei no método')
     if(Array.isArray(this.#database[table])) {
       this.#database[table].push(data)
-      return this.#persist()
+    } else {
+      this.#database[table] = [data]
     }
 
-    this.#database[table] = data
     this.#persist()
+    
+    return data
   }
 }
