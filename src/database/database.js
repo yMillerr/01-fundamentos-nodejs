@@ -31,7 +31,7 @@ export class Database {
 
   read(table) {
     const data = this.#database[table]
-    
+
     return data
   }
 }
