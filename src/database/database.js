@@ -1,6 +1,5 @@
 import { writeFile, readFile } from 'node:fs/promises'
 
-
 const databaseFilePath = new URL("../../db.json", import.meta.url)
 
 export class Database {
@@ -33,5 +32,14 @@ export class Database {
     const data = this.#database[table]
 
     return data
+  }
+
+  update(table, id , data) {
+    const rowIndex = this.#database[table].findIndex(row => row.id === id)
+
+    if (rowIndex > -1) {
+      this.#database[table][rowIndex] = data
+      this.#persist()
+    }
   }
 }
