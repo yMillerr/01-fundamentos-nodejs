@@ -44,7 +44,8 @@ export const routes = [
       database.update('tasks', id , {
         id,
         title,
-        description
+        description,
+        updated_at: new Date(),
       })
 
       res.end()
