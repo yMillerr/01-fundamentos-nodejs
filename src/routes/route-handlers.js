@@ -67,6 +67,14 @@ export const routes = [
     handler: (req, res) => {
       const { id } = req.params
 
+      const task = database.read('tasks').find(task => task.id  === id)
+
+      if (!task) {
+        return res.writeHead(500).end(JSON.stringify({
+          message: 'O task informada não existe'
+        }))
+      }
+
       database.delete('tasks', id)
 
       res.end()
