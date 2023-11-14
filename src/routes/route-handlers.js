@@ -41,11 +41,21 @@ export const routes = [
       const { id } = req.params
       const { title, description } = req.body
 
-      database.update('tasks', id , {
-        id,
+      const task = database.read('tasks').find(task => task.id === id)
+
+      if (!title || !description) {
+        return res.writeHead(400).end()
+      }
+
+      const taskUpdated = {
+        ...task,
         title,
         description,
         updated_at: new Date(),
+      }
+
+      database.update('tasks', id , {
+        taskUpdated
       })
 
       res.end()
@@ -60,6 +70,27 @@ export const routes = [
       database.delete('tasks', id)
 
       res.end()
-    }
+    },
+  },
+  {
+    method: 'PATCH',
+    path: buildRoutePath('/tasks/:id/complete'),
+    handler: (req, res) => {
+      const { id } = req.params
+
+      const task = database.read('tasks').find(task => task.id === id)
+      const taskCompleted = {
+        ...task,
+        completed_at: new Date()
+      }
+
+      if(!task) {
+        return res.writeHead(500).end()
+      }
+
+      database.update('tasks', id ,taskCompleted)
+
+      res.end()
+    },
   }
 ]

@@ -36,10 +36,9 @@ export class Database {
 
   update(table, id, data) {
     const rowIndex = this.#database[table].findIndex(row => row.id === id)
-    const row = this.#database[table][rowIndex]
 
     if (rowIndex > -1) {
-      this.#database[table][rowIndex] = Object.assign(row, data)
+      this.#database[table][rowIndex] = data
       this.#persist()
     }
   }
