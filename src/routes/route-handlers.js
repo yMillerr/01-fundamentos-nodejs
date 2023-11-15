@@ -11,6 +11,12 @@ export const routes = [
     handler: (req, res) => {
     const { title, description } = req.body
 
+    if (!title || !description ) {
+      return res.writeHead(400).end(JSON.stringify({
+        message: "Você precisa informar o titulo/descrição da tarefa"
+      }))
+    }
+
     const task = {
       id: randomUUID(),
       title,
@@ -43,8 +49,10 @@ export const routes = [
 
       const task = database.read('tasks').find(task => task.id === id)
 
-      if (!title || !description) {
-        return res.writeHead(400).end()
+      if (!title || !description ) {
+        return res.writeHead(400).end(JSON.stringify({
+          message: "Você precisa informar o titulo/descrição da tarefa"
+        }))
       }
 
       const taskUpdated = {
